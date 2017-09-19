@@ -14,3 +14,13 @@ Obj.defineProperty(obj,prop,{
 - 响应式
 - 服务端渲染(SSR)
 - 易于集成路由工具，打包工具及状态管理工具
+3. 环境搭建
+- node 6+
+4. npm升级
+```
+npm i -g npm
+cnpm i -g cnpm
+cnpm i vue-cli -g
+```
+5. Vue-cli脚手架构建初始化
+
