@@ -8,8 +8,8 @@
       <div class="container">
         <div class="filter-nav">
           <span class="sortby">Sort by:</span>
-          <a href="javascript:void(0)" class="default cur">Default</a>
-          <a href="javascript:void(0)" class="price">Price
+          <a href="javascript:void(0)" @click="filterByWay('default')" class="default" :class="{'cur':filterBy=='default'}">Default</a>
+          <a href="javascript:void(0)" class="price" :class="{'cur':filterBy=='price'}" @click="filterByWay('price')">Price
             <svg class="icon icon-arrow-short">
               <use xlink:href="#icon-arrow-short"></use>
             </svg>
@@ -18,12 +18,12 @@
         </div>
         <div class="accessory-result">
           <!-- filter -->
-          <div class="filter stopPop" id="filter">
+          <div class="filter stopPop" id="filter" v-if="filterBy=='price'">
             <dl class="filter-price">
               <dt>Price:</dt>
-              <dd><a href="javascript:void(0)">All</a></dd>
+              <dd><a :class="{'cur': selectedPriceIdx==-1}" href="javascript:void(0)">All</a></dd>
               <dd v-for="(filter, idx) in priceFilter" :key="idx">
-                <a href="javascript:void(0)">{{filter.startPrice}} - {{filter.endPrice}}</a>
+                <a href="javascript:void(0)" :class="{'cur': selectedPriceIdx==idx}" @click="priceFilterClick(idx)">{{filter.startPrice}} - {{filter.endPrice}}</a>
               </dd>
             </dl>
           </div>
@@ -66,7 +66,9 @@ export default{
   },
   data () {
     return {
+      selectedPriceIdx: -1,
       goodsList: [],
+      filterBy: 'default',
       priceFilter: [
         {
           startPrice: '0.00',
@@ -91,6 +93,12 @@ export default{
       axios.get('/goods').then(res => {
         this.goodsList = res.data.result
       })
+    },
+    priceFilterClick (idx) {
+      this.selectedPriceIdx = idx
+    },
+    filterByWay (way) {
+      this.filterBy = way
     }
   }
 }
